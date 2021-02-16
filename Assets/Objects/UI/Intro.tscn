@@ -1,0 +1,157 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Assets/img/Early_GameBoy.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/img/Scroll.png" type="Texture" id=2]
+[ext_resource path="res://Assets/img/ScrollDown.png" type="Texture" id=3]
+[ext_resource path="res://Assets/SFX/Select.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/img/Buttons/SkipUntouched.png" type="Texture" id=5]
+[ext_resource path="res://Assets/img/Buttons/SkipHover.png" type="Texture" id=6]
+[ext_resource path="res://Assets/img/Buttons/SkipPressed.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Objects/UI/Skip.gd" type="Script" id=8]
+[ext_resource path="res://Assets/Objects/UI/FadeIn.gd" type="Script" id=9]
+[ext_resource path="res://Assets/Objects/UI/Intro.gd" type="Script" id=10]
+[ext_resource path="res://Assets/Objects/UI/AudioStreamPlayerIntro.gd" type="Script" id=11]
+[ext_resource path="res://Assets/Objects/TextureRect.tscn" type="PackedScene" id=12]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "Scroll"
+length = 50.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1.4, 47.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -880 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Fade"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.109804, 0.0509804, 0.101961, 0 ), Color( 0.109804, 0.0509804, 0.101961, 1 ) ]
+}
+
+[node name="Node2D" type="Control"]
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 152, 152 )
+texture = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 304.0
+margin_bottom = 848.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.984314, 0.992157, 0.745098, 1 )
+text = "Once upon a time...
+
+OK screw that 
+beginning this is 
+not a fairy tale. 
+Anyway, the slime 
+kingdom has been 
+raided by the evil 
+army of the dark 
+slime lord Kay Oss 
+and he is going to 
+kill everyone, you 
+know, that typical 
+video game stuff. 
+You, the chosen 
+one, was put on 
+the battlefield 
+blast the baddies 
+away with your pew 
+pew. But there is a 
+problem: Slimes 
+don't like to kill, 
+well, exept for Lord 
+Kay Oss. So if you 
+kill those baddies, 
+you will get less 
+points than if you
+let them die of 
+\"natural\" causes, 
+you know, like push 
+them into a lava 
+pit next to the 
+battlefiel... crap 
+I am telling you too 
+much JUST PLAY THE 
+GAME FOR YOURSELF,
+ OK?"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Label"]
+anims/Scroll = SubResource( 3 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 152, 152 )
+texture = ExtResource( 3 )
+
+[node name="Buttons" type="VBoxContainer" parent="."]
+margin_left = 88.0
+margin_top = 264.0
+margin_right = 200.0
+margin_bottom = 296.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Skip" type="TextureButton" parent="Buttons"]
+margin_right = 112.0
+margin_bottom = 32.0
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 6 )
+texture_disabled = ExtResource( 5 )
+texture_focused = ExtResource( 5 )
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+scene_to_load = "res://Main.tscn"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+script = ExtResource( 11 )
+
+[node name="FadeIn" type="ColorRect" parent="."]
+visible = false
+margin_right = 304.0
+margin_bottom = 304.0
+color = Color( 0.109804, 0.0509804, 0.101961, 0 )
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FadeIn"]
+anims/Fade = SubResource( 2 )
+
+[node name="TextureRect" parent="." instance=ExtResource( 12 )]
+mouse_filter = 2
+[connection signal="pressed" from="Buttons/Skip" to="AudioStreamPlayer" method="_on_Skip_pressed"]
+[connection signal="fade_finished" from="FadeIn" to="." method="_on_FadeIn_fade_finished"]
+[connection signal="animation_finished" from="FadeIn/AnimationPlayer" to="FadeIn" method="_on_AnimationPlayer_animation_finished"]

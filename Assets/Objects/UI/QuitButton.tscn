@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Objects/UI/Start.gd" type="Script" id=1]
+[ext_resource path="res://Assets/img/Buttons/QuitPressed.png" type="Texture" id=2]
+[ext_resource path="res://Assets/img/Buttons/QuitUntouched.png" type="Texture" id=3]
+[ext_resource path="res://Assets/img/Buttons/QuitHover.png" type="Texture" id=4]
+
+[node name="Quit" type="TextureButton"]
+margin_top = 72.0
+margin_right = 112.0
+margin_bottom = 104.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 4 )
+texture_disabled = ExtResource( 3 )
+texture_focused = ExtResource( 3 )
+script = ExtResource( 1 )
+scene_to_load = "res://Assets/Objects/UI/Quitscreen.tscn"

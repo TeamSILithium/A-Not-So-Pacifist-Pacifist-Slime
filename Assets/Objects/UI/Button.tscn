@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/Objects/UI/Button.gd" type="Script" id=2]
+
+[node name="Button" type="TextureButton"]
+margin_right = 62.0
+margin_bottom = 20.0
+action_mode = 0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+scene_to_load = "res://Main.gd"

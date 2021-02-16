@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Objects/UI/Button.gd" type="Script" id=1]
+[ext_resource path="res://Assets/img/Buttons/BackHover.png" type="Texture" id=2]
+[ext_resource path="res://Assets/img/Buttons/BackUntouched.png" type="Texture" id=3]
+[ext_resource path="res://Assets/img/Buttons/BackPressed.png" type="Texture" id=4]
+
+[node name="TextureButton" type="TextureButton"]
+margin_right = 112.0
+margin_bottom = 32.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 2 )
+texture_disabled = ExtResource( 3 )
+texture_focused = ExtResource( 3 )
+script = ExtResource( 1 )
+scene_to_load = "res://Assets/Objects/UI/Startscreen.tscn"
