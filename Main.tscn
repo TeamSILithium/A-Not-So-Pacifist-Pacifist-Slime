@@ -1,0 +1,168 @@
+[gd_scene load_steps=28 format=2]
+
+[ext_resource path="res://Assets/Objects/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Objects/Stage/OuterLayer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Objects/Stage/Walls.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Objects/Stage/Floor.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Objects/Camera/Camera2D.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Main.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Objects/TextureRect.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Assets/Objects/UI/Hearts.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Assets/img/Score.png" type="Texture" id=9]
+[ext_resource path="res://Assets/img/Early_GameBoy.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://Label.gd" type="Script" id=11]
+[ext_resource path="res://Assets/Objects/Stage/Lava.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Assets/Objects/UI/QuitButton.gd" type="Script" id=13]
+[ext_resource path="res://Enemies.gd" type="Script" id=14]
+[ext_resource path="res://Assets/Objects/UI/QuitButton.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Assets/Objects/UI/Start.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Control.gd" type="Script" id=17]
+[ext_resource path="res://Assets/img/Ded.png" type="Texture" id=18]
+[ext_resource path="res://Assets/Objects/UI/Restart.gd" type="Script" id=19]
+[ext_resource path="res://Assets/Objects/UI/FadeIn.gd" type="Script" id=20]
+[ext_resource path="res://Assets/SFX/Select.wav" type="AudioStream" id=21]
+[ext_resource path="res://AudioStreamPlayer.gd" type="Script" id=22]
+[ext_resource path="res://Assets/img/Buttons/RestartHover.png" type="Texture" id=23]
+[ext_resource path="res://Assets/img/Buttons/RestartPressed.png" type="Texture" id=24]
+[ext_resource path="res://Assets/img/Buttons/RestartUntouched.png" type="Texture" id=25]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 10 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Fade"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.109804, 0.0509804, 0.101961, 0 ), Color( 0.109804, 0.0509804, 0.101961, 1 ) ]
+}
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 6 )
+
+[node name="Envioment" type="Node2D" parent="."]
+
+[node name="Walls" parent="Envioment" instance=ExtResource( 3 )]
+position = Vector2( 152, 152 )
+
+[node name="OuterLayer" parent="Envioment" instance=ExtResource( 2 )]
+position = Vector2( 144, 144 )
+
+[node name="Floor" parent="Envioment" instance=ExtResource( 4 )]
+position = Vector2( 152, 152 )
+
+[node name="Area2D" parent="Envioment" instance=ExtResource( 12 )]
+position = Vector2( 152, 152 )
+
+[node name="GUI" type="Control" parent="."]
+margin_right = 304.0
+margin_bottom = 304.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hearts" parent="GUI" instance=ExtResource( 8 )]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI"]
+margin_left = 144.0
+margin_right = 304.0
+margin_bottom = 16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="GUI/HBoxContainer"]
+margin_right = 88.0
+margin_bottom = 20.0
+texture = ExtResource( 9 )
+
+[node name="Label" type="Label" parent="GUI/HBoxContainer"]
+margin_left = 92.0
+margin_right = 108.0
+margin_bottom = 20.0
+custom_fonts/font = SubResource( 1 )
+text = "0"
+script = ExtResource( 11 )
+
+[node name="Bullet" type="Node" parent="."]
+
+[node name="Enemies" type="Node" parent="."]
+script = ExtResource( 14 )
+
+[node name="EnemyTimer" type="Timer" parent="Enemies"]
+wait_time = 6.0
+autostart = true
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 144, 144 )
+
+[node name="Camera2D" parent="." instance=ExtResource( 5 )]
+
+[node name="Control" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+margin_left = 80.0
+margin_top = 96.0
+margin_right = 224.0
+margin_bottom = 144.0
+texture = ExtResource( 18 )
+
+[node name="Restart" parent="Control" instance=ExtResource( 16 )]
+margin_left = 92.0
+margin_top = 150.0
+margin_right = 204.0
+margin_bottom = 182.0
+texture_normal = ExtResource( 25 )
+texture_pressed = ExtResource( 24 )
+texture_hover = ExtResource( 23 )
+texture_disabled = ExtResource( 25 )
+texture_focused = ExtResource( 25 )
+script = ExtResource( 19 )
+
+[node name="Quit" parent="Control" instance=ExtResource( 15 )]
+margin_left = 92.0
+margin_top = 186.0
+margin_right = 204.0
+margin_bottom = 218.0
+script = ExtResource( 13 )
+
+[node name="FadeIn" type="ColorRect" parent="Control"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+color = Color( 0.109804, 0.0509804, 0.101961, 1 )
+script = ExtResource( 20 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/FadeIn"]
+anims/Fade = SubResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Control"]
+stream = ExtResource( 21 )
+script = ExtResource( 22 )
+
+[node name="CRTeffect" parent="." instance=ExtResource( 7 )]
+mouse_filter = 2
+[connection signal="timeout" from="Enemies/EnemyTimer" to="Enemies" method="_on_EnemyTimer_timeout"]
+[connection signal="ya_ded_son" from="Player" to="." method="_on_Player_ya_ded_son"]
+[connection signal="ya_ded_son" from="Player" to="Control" method="_on_Player_ya_ded_son"]
+[connection signal="ITS_ALLIVE" from="Control/Restart" to="Player" method="_on_Restart_ITS_ALLIVE"]
+[connection signal="pressed" from="Control/Restart" to="Control/Restart" method="_on_Restart_pressed"]
+[connection signal="pressed" from="Control/Restart" to="Control/AudioStreamPlayer" method="_on_Restart_pressed"]
+[connection signal="pressed" from="Control/Quit" to="Control/Quit" method="_on_Quit_pressed"]
+[connection signal="pressed" from="Control/Quit" to="Control/AudioStreamPlayer" method="_on_Quit_pressed"]
+[connection signal="fade_finished" from="Control/FadeIn" to="Control" method="_on_FadeIn_fade_finished"]
+[connection signal="animation_finished" from="Control/FadeIn/AnimationPlayer" to="Control/FadeIn" method="_on_AnimationPlayer_animation_finished"]
